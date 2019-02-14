@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8f79f2-9615-4f8b-9e01-f0d7136c0ee4" name="Default Changelist" comment="" />
+    <list default="true" id="4d8f79f2-9615-4f8b-9e01-f0d7136c0ee4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/menu/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/menu/views.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +28,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/menu/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="903">
-              <caret line="96" column="36" lean-forward="true" selection-start-line="96" selection-start-column="36" selection-end-line="97" selection-end-column="43" />
+            <state relative-caret-position="966">
+              <caret line="99" lean-forward="true" selection-start-line="99" selection-end-line="99" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
                 <element signature="e#727#1945#0" />
@@ -53,7 +56,7 @@
         <entry file="file://$PROJECT_DIR$/menu/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="441">
-              <caret line="21" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="21" />
+              <caret line="21" selection-start-line="20" selection-start-column="4" selection-end-line="21" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -108,7 +111,7 @@
         <entry file="file://$PROJECT_DIR$/menu/templates/menu/create_new_form.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="748">
-              <caret line="75" column="57" lean-forward="true" selection-start-line="75" selection-start-column="57" selection-end-line="75" selection-end-column="57" />
+              <caret line="75" column="57" selection-start-line="75" selection-start-column="57" selection-end-line="75" selection-end-column="57" />
               <folding>
                 <element signature="n#style#0;n#head#0;n#html#0;n#!!top" />
               </folding>
@@ -144,6 +147,9 @@
       <dir>C:\Users\KyleSchneider\Documents\pokedex</dir>
     </dirStrings>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -166,8 +172,8 @@
         <option value="$PROJECT_DIR$/menu/forms.py" />
         <option value="$PROJECT_DIR$/menu/urls.py" />
         <option value="$PROJECT_DIR$/menu/templates/menu/create_new_form.html" />
-        <option value="$PROJECT_DIR$/menu/views.py" />
         <option value="$PROJECT_DIR$/menu/templates/menu/pokemon_type.html" />
+        <option value="$PROJECT_DIR$/menu/views.py" />
       </list>
     </option>
   </component>
@@ -176,6 +182,9 @@
     <option name="y" value="-859" />
     <option name="width" value="1096" />
     <option name="height" value="1896" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -278,12 +287,12 @@
       <option name="presentableId" value="Default" />
       <updated>1549390951121</updated>
       <workItem from="1549390953629" duration="167347000" />
-      <workItem from="1550150248917" duration="20511000" />
+      <workItem from="1550150248917" duration="21065000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="187858000" />
+    <option name="totallyTimeSpent" value="188412000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-859" width="1096" height="1896" extended-state="6" />
@@ -292,6 +301,7 @@
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="1" weight="0.3330116" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Database Changes" order="0" />
       <window_info anchor="bottom" id="Terminal" order="1" />
       <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
@@ -492,7 +502,7 @@
     <entry file="file://$PROJECT_DIR$/menu/templates/menu/create_new_form.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="748">
-          <caret line="75" column="57" lean-forward="true" selection-start-line="75" selection-start-column="57" selection-end-line="75" selection-end-column="57" />
+          <caret line="75" column="57" selection-start-line="75" selection-start-column="57" selection-end-line="75" selection-end-column="57" />
           <folding>
             <element signature="n#style#0;n#head#0;n#html#0;n#!!top" />
           </folding>
@@ -530,7 +540,7 @@
     <entry file="file://$PROJECT_DIR$/menu/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="441">
-          <caret line="21" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="21" />
+          <caret line="21" selection-start-line="20" selection-start-column="4" selection-end-line="21" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
@@ -558,8 +568,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/menu/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="903">
-          <caret line="96" column="36" lean-forward="true" selection-start-line="96" selection-start-column="36" selection-end-line="97" selection-end-column="43" />
+        <state relative-caret-position="966">
+          <caret line="99" lean-forward="true" selection-start-line="99" selection-end-line="99" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
             <element signature="e#727#1945#0" />

@@ -98,7 +98,6 @@ class pokemonList(ListView):
 #         poke = pokemon.objects.get(pk=id)
 #         return poke
 
-
 class pokemonCreate(CreateView):
     def post(self, request, *args, **kwargs):
         results = {
