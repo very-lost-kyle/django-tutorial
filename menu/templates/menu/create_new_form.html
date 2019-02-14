@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>form submission</title>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <style>
+        .top_buffer {
+            margin-top: 10px;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: #efefef;
+        }
+
+        .error {
+            display: none;
+            margin-left: 10px;
+        }
+
+        .error1 {
+            display: none;
+            margin-left: 10px;
+        }
+
+        .error_show {
+            color: red;
+            margin-left: 10px;
+        }
+
+        .error1_show {
+            color: red;
+            margin-left: 10px;
+        }
+
+        input.invalid, textarea.invalid {
+            border: 2px solid red;
+        }
+
+        input.valid, textarea.valid {
+            border: 2px solid green;
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
+          integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.css"/>
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-8">
+
+            <h1>pokemon categories</h1>
+            <form action="type" method="post">
+                {% csrf_token %}
+                <div class="form-inline">
+                    <div class="form-group">
+                        <div class="input-group">
+                            {{ form.as_p }}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-3">
+                    <button type="submit" class="btn btn-primary">submit</button>
+                </div>
+
+
+            </form>
+            <div class="col-xs-3">
+                <a href="{% url "menu:PokemonType" %}" class="btn btn-danger pull-left" role="button">go
+                    back</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"
+        integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.all.min.js"></script>
+
+</html>

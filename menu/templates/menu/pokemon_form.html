@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'menu/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
+          integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.css"/>
+    <title>pokemon_form</title>
+    <style>
+
+        #variable {
+            font-style: normal;
+            font-size: 35px;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: #efefef;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6">
+            <div id="variable" align="center"></div>
+
+        </div>
+        <div class="col-xs-6">
+            <a href="{% url "menu:pokemon_form" %}" class="btn btn-warning pull-right" role="button">go back</a>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <form method="post">
+                    {% csrf_token %}
+                    <table class="table table-striped">
+                        {{ form.as_table }}
+                    </table>
+                    <input type="submit" class="btn btn-success" value="complete edit"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"
+        integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.all.min.js"></script>
+{#<script>#}
+{##}
+{#    $(document).ready(function () {#}
+{##}
+{#        function use_me(){#}
+{#            //const poke_id = $(this){{ object.id }};#}
+{#        }#}
+{##}
+{##}
+{#        var variable = "editing: ";#}
+{#        var url = window.location.pathname;#}
+{#        console.log(url);#}
+{#        var string1 = "/menu/new";#}
+{#        if (String(url) === String(string1)) {#}
+{#            variable = "enter a new pokemon "#}
+{#        } else {#}
+{#            variable = "editing" + {{ object.name_text }};#}
+{#        }#}
+{#        document.getElementById("variable").innerHTML = variable;#}
+{##}
+{#    });#}
+{#</script>#}
+
+</html>

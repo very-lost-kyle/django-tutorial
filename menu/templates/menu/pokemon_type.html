@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PokemonType</title>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <style>
+        .top_buffer {
+            margin-top: 10px;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: #efefef;
+        }
+
+        .error {
+            display: none;
+            margin-left: 10px;
+        }
+
+        .error1 {
+            display: none;
+            margin-left: 10px;
+        }
+
+        .error_show {
+            color: red;
+            margin-left: 10px;
+        }
+
+        .error1_show {
+            color: red;
+            margin-left: 10px;
+        }
+
+        input.invalid, textarea.invalid {
+            border: 2px solid red;
+        }
+
+        input.valid, textarea.valid {
+            border: 2px solid green;
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
+          integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-8">
+
+            <h1>pokemon categories</h1>
+            <table class="table table-striped js-table">
+                <thread>
+                    <tr>
+                        <th scope="col">Type</th>
+                        <th scope="col" colspan="3">Hidden</th>
+                    </tr>
+                </thread>
+                <tbody class="body">
+                {% for j in object_list %}
+                    <tr class="js-data-row {% if j.delete_me_bool %}hidden{% endif %}" data-is-hidden="{{ j.delete_me_bool }}">
+                        <th scope="row">{{ j.category_type }}</th>
+                        <td>{{ j.delete_me_bool }} </td>
+                        <td>
+                            <button type="button" class="btn btn-danger js-type-hide" data-id="{{ j.id }}">hide</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-success js-type-show" data-id="{{ j.id }}">show
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <form action="type" method="post">
+                {% csrf_token %}
+                <div class="col-xs-3">
+                    <button type="submit" class="btn btn-primary">submit new category</button>
+                </div>
+
+
+            </form>
+            <div class="col-xs-3">
+                <a href="{% url "menu:pokemon_form" %}" class="btn btn-danger pull-left" role="button">go
+                    back</a>
+            </div>
+            <div class="col-xs-3">
+                <!--<button type="button" class="btn btn-warning">show hidden categories</button>-->
+                <input class="js-show-toggle" type="checkbox" checked data-toggle="toggle"
+                       data-off="<i class='fa fa-eye-slash'></i> hide"
+                       data-on="<i class='fa fa-eye'></i> show"
+                       data-onstyle="warning" data-offstyle="info">
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+</body>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"
+        integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.all.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        const csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
+        $(document).on('click', '.js-type-hide', function (e) {
+            const category_type_id = $(this).data('id');
+            console.log('changed= ' + category_type_id + '\n');
+            $.ajax({
+                type: "POST",
+                url: '{% url "menu:PokemonFormType" %}',
+                data: {
+                    csrf: csrftoken,
+                    id: $(this).data('id'),
+                    hide: true,
+                },
+                headers: {"X-CSRFToken": csrftoken},
+                datatype: "json",
+                success: async function (data) {
+                    const {value: temp} = await Swal.fire(
+                        data.message
+                    );
+                    location.reload()
+                },
+                error: function (err) {
+
+                    console.error('an error occurred', err);
+                    Swal.fire(
+                        '\n OOPS!! Looks like we\'re blasting off again!\n',
+                    );
+
+                }
+            });
+        });
+
+        $(document).on('click', '.js-type-show', function (e) {
+            const category_type_id = $(this).data('id');
+            console.log('changed= ' + category_type_id + '\n');
+            $.ajax({
+                type: "POST",
+                url: '{% url "menu:PokemonFormType" %}',
+                data: {
+                    csrf: csrftoken,
+                    id: $(this).data('id'),
+                    hide: false,
+                },
+                headers: {"X-CSRFToken": csrftoken},
+                datatype: "json",
+                success: async function (data) {
+                    const {value: temp} = await Swal.fire(
+                        data.message
+                    );
+                    location.reload()
+                },
+                error: function (err) {
+
+                    console.error('an error occurred', err);
+                    Swal.fire(
+                        '\n OOPS!! Looks like we\'re blasting off again!\n',
+                    );
+
+                }
+            });
+        });
+
+        $(document).on('change', '.js-show-toggle', function (e) {
+            let data_rows = $('.js-data-row').toArray();
+
+            data_rows.forEach(function(element, index){
+                if($(element).data('is-hidden') === 'True' && $(element).hasClass('hidden')) {
+                    $(element).removeClass('hidden');
+                } else if($(element).data('is-hidden') === 'True' && $(element).hasClass('hidden') === false) {
+                    $(element).addClass('hidden');
+                }
+            });
+        });
+    });
+
+
+</script>
+</html>

@@ -1,0 +1,39 @@
+.fire {
+    color: red;
+    text-shadow: black;
+}
+
+.water {
+    color: blue;
+    text-shadow: black;
+}
+
+.normal {
+    color: tan;
+    text-shadow: black;
+}
+
+.grass {
+    color: green;
+    text-shadow: black;
+}
+
+.ice {
+    color: cyan;
+    text-shadow: black;
+}
+
+.poison {
+    color: purple;
+    text-shadow: black;
+}
+
+.flying {
+    color: lightblue;
+    text-shadow: black;
+}
+
+.body {
+    background: darkgrey;
+    border: 1px solid black;
+}
