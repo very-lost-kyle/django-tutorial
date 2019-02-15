@@ -1,17 +1,8 @@
-from django.http import HttpResponse
 from django.forms.models import model_to_dict
 from django.shortcuts import render
-from django.http import Http404
-from django.views.generic import ListView, DetailView, View
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-import json
-from django.shortcuts import get_object_or_404
-from django.urls import resolve
-from django.core import serializers
-from django.db.models import Count
+from django.views.generic import ListView, View
+from django.views.generic.edit import CreateView
 from django.shortcuts import redirect
-from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from .forms import TypeForm
 from .models import pokemon
@@ -95,16 +86,12 @@ class PokemonType(ListView):
                 return JsonResponse(results)
             else:
                 form = TypeForm(request.POST)
-                # all_entries = Category.objects.all()
-                # all_entries.delete()
-                # print(all_entries)
                 if form.is_valid():
-                    print('form is valid')
+                    # print('form is valid')
                     post = form.save(commit=False)
                     post.save()
                     return redirect('menu:PokemonType')
                 else:
-                    # print('form is not valid')
                     form = TypeForm()
                 return render(request, 'menu/create_new_form.html', {'form': form})
 
@@ -118,23 +105,8 @@ class pokemonList(ListView):
         context = super(pokemonList, self).get_context_data(**kwargs)
         context['pokemons_types'] = Category.objects.all()
 
-        # print(self.model.foreign_type_set.all())
-        # print(self.queryset)
-        # for i in self.queryset:
-        #     print(i.__dict__)
-
         return context
 
-
-# class pokemonView(DetailView):
-#     model = pokemon
-#
-#     def get_object(self, queryset=None):
-#         id = 0
-#         if 'pk' in self.kwargs:
-#             id = self.kwargs['pk']
-#         poke = pokemon.objects.get(pk=id)
-#         return poke
 
 class pokemonCreate(CreateView):
     def post(self, request, *args, **kwargs):
@@ -154,11 +126,9 @@ class pokemonCreate(CreateView):
             return_level = request.POST.get('p_level')
 
             name_test = pokemon.objects.filter(name_text=return_name)
-            # print(name_test)
             if not name_test:
-                # print('empty')
                 status_code = 200
-                record = pokemon.objects.create(type_text=return_type,
+                record = pokemon.objects.create(foreign_type_id=return_type,
                                                 name_text=return_name,
                                                 shiny_bool=return_shiny,
                                                 level_int=return_level)
@@ -173,7 +143,6 @@ class pokemonCreate(CreateView):
                 results['message'] = message
 
             else:
-                # print('not empty')
                 status_code = 400
                 record = {}
 
@@ -218,18 +187,16 @@ class pokemonUpdate(View):
             return_type = request.POST.get('p_type')
             return_shiny = request.POST.get('p_shiny')
             return_level = request.POST.get('p_level')
-            print(return_type)
             name_test = pokemon.objects.filter(name_text=return_name)
 
             # Getting current record.
             record = pokemon.objects.get(id=return_id)
-
             if pokemon.objects.filter(name_text=return_name).count() == 1:
                 id_check = pokemon.objects.get(name_text=return_name)
                 if id_check.id == record.id:
                     # Update record values.
                     record.name_text = return_name
-                    record.type_text = return_type
+                    record.foreign_type_id = return_type
                     record.shiny_bool = return_shiny
                     record.level_int = return_level
 
@@ -257,7 +224,7 @@ class pokemonUpdate(View):
             else:
                 # Update record values.
                 record.name_text = return_name
-                record.type_text = return_type
+                record.foreign_type_id = return_type
                 record.shiny_bool = return_shiny
                 record.level_int = return_level
 
@@ -312,6 +279,4 @@ class pokemonDelete(View):
                 'item': record.id,
                 'message': "an error occurred"
             }
-
-        # return HttpResponse(json.dumps(message), content_type="application/json")
         return JsonResponse(results)

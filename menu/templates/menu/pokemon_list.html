@@ -42,6 +42,14 @@
             border: 2px solid green;
         }
 
+        select.invalid, textarea.invalid {
+            border: 2px solid red;
+        }
+
+        select.valid, textarea.valid {
+            border: 2px solid green;
+        }
+
     </style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
           integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
@@ -151,8 +159,8 @@
                                             <option value="{{ type.id }}">{{ type.category_type }}</option>
                                         {% endfor %}
                                     </select>
+                                    <span class="error">The type is required</span>
                                 </div>
-                                <span class="error">The type is required</span>
                             </div>
 
                         </div>
@@ -204,9 +212,16 @@
                                 <span class="error">cannot be a blank or a duplicate</span>
                             </div>
                             <div class="col-md-6">
-                                <label for="input2"><font size="4">New Type</font></label>
-                                <input type="text" class="form-control input-sm" id="new_input_type">
-                                <span class="error">A type is required</span>
+                                <div class="form-group">
+                                    <label for="new_input_type"><font size="4">Edit Type</font></label>
+                                    <select class="form-control" id="new_input_type">
+                                        <option value="">default</option>
+                                        {% for type in pokemons_types %}
+                                            <option value="{{ type.id }}">{{ type.category_type }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <span class="error">The type is required</span>
+                                </div>
                             </div>
 
                         </div>
@@ -300,6 +315,7 @@
             let error__type__element = $('span', input_type.parent());
             let error__level__element = $('span', input_level.parent());
             if (input_name.val() && input_type.val() && input_level.val()) {
+                console.log($('#input_type').val());
                 $.ajax({
                     type: "POST",
                     url: '{% url "menu:pokemon_edit" %}',
@@ -313,15 +329,17 @@
                     },
                     headers: {"X-CSRFToken": csrftoken},
                     datatype: "json",
-                    success: function (data) {
-                        $('#' + data.item[0].id + ' .row_header').html(data.item[0].name_text);
+                    success: async function (data) {
+                        /*$('#' + data.item[0].id + ' .row_header').html(data.item[0].name_text);
                         $('#' + data.item[0].id + ' .row_type').html(data.item[0].foreign_type);
                         $('#' + data.item[0].id + ' .row_level').html(data.item[0].level_int);
                         $('#' + data.item[0].id + ' .row_shiny').html(data.item[0].shiny_bool);
-                        Swal.fire(
+                        */
+                        await Swal.fire(
                             data.message,
                         );
                         $('#edit_modal').modal('hide');
+                        location.reload();
                     },
                     error: function (err) {
                         if (err.status == 400) {
