@@ -77,13 +77,13 @@
                     {% for i in object_list %}
                         <tr id="{{ i.id }}">
                             <th scope="row" class="row_header">{{ i.name_text }}</th>
-                            <td class="row_type">{{ i.type_text }} </td>
+                            <td class="row_type">{{ i.foreign_type }} </td>
                             <td class="row_shiny">{{ i.shiny_bool }}</td>
                             <td class="row_level">{{ i.level_int }}</td>
                             <td>
                                 <a tabindex="0" class="btn btn-md btn-warning" role="button" data-toggle="popover"
                                    data-trigger="focus" title="{{ i.name_text }}"
-                                   data-content="type: {{ i.type_text }}<br />
+                                   data-content="type: {{ i.foreign_type }}<br />
                                                  shiny: {{ i.shiny_bool }}<br />
                                                  level: {{ i.level_int }}"
                                    data-html="true">view</a>
@@ -92,11 +92,12 @@
                                 <button type="button" class="btn btn-info js-edit" id="edit_button"
                                         data-id="{{ i.id }}"
                                         data-name="{{ i.name_text }}"
-                                        data-type="{{ i.type_text }}"
+                                        data-type="{{ i.foreign_type }}"
                                         data-shiny="{{ i.shiny_bool }}"
                                         data-level="{{ i.level_int }}">
                                     edit
                                 </button>
+
                             </td>
                             <td>
                                 <button type="button" class="btn btn-danger js-delete" data-id="{{ i.id }}">delete
@@ -105,6 +106,7 @@
                         </tr>
                     {% endfor %}
                     </tbody>
+
                 </table>
                 <div class="col-xs-1">
                     <!--<a href="{% url "menu:pokemon_new" %}" class="btn btn-success pull-left" role="button">New</a>-->
@@ -141,8 +143,15 @@
                                 <span class="error">cannot be a blank or a duplicate</span>
                             </div>
                             <div class="col-md-6">
-                                <label for="input_type"><font size="4">Edit Type</font></label>
-                                <input type="text" class="form-control input-sm" id="input_type">
+                                <div class="form-group">
+                                    <label for="input_type"><font size="4">Edit Type</font></label>
+                                    <select class="form-control" id="input_type">
+                                        <option value="">default</option>
+                                        {% for type in pokemons_types %}
+                                            <option value="{{ type.id }}">{{ type.category_type }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
                                 <span class="error">The type is required</span>
                             </div>
 
@@ -246,15 +255,16 @@
 <script>
     $(document).ready(function () {
         const csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
         $('[data-toggle="popover"]').popover();
 
         $(document).on('click', '.js-work-load', function (e) {
-           swal.fire(
-               '--> create drop down menu for edit/new modals\n\n' +
-               '--> populate drop down menu with category model > types\n\n' +
-               '--> update edit/new ajax requests to update foreign key in pokemon model\n\n' +
-               '--> add delete request for category types in pokemon_type.html\n\n'
-           )
+            swal.fire(
+                '--> create drop down menu for edit/new modals\n\n' +
+                '--> populate drop down menu with category model > types\n\n' +
+                '--> update edit/new ajax requests to update foreign key in pokemon model\n\n' +
+                '--> add delete request for category types in pokemon_type.html\n\n'
+            )
         });
 
         $(document).on('change', '#shiny_toggle', function (e) {
@@ -305,7 +315,7 @@
                     datatype: "json",
                     success: function (data) {
                         $('#' + data.item[0].id + ' .row_header').html(data.item[0].name_text);
-                        $('#' + data.item[0].id + ' .row_type').html(data.item[0].type_text);
+                        $('#' + data.item[0].id + ' .row_type').html(data.item[0].foreign_type);
                         $('#' + data.item[0].id + ' .row_level').html(data.item[0].level_int);
                         $('#' + data.item[0].id + ' .row_shiny').html(data.item[0].shiny_bool);
                         Swal.fire(

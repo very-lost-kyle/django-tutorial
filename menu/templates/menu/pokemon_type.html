@@ -64,7 +64,8 @@
                 </thread>
                 <tbody class="body">
                 {% for j in object_list %}
-                    <tr class="js-data-row {% if j.delete_me_bool %}hidden{% endif %}" data-is-hidden="{{ j.delete_me_bool }}">
+                    <tr class="js-data-row {% if j.delete_me_bool %}hidden{% endif %}"
+                        data-is-hidden="{{ j.delete_me_bool }}">
                         <th scope="row">{{ j.category_type }}</th>
                         <td>{{ j.delete_me_bool }} </td>
                         <td>
@@ -72,6 +73,10 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-success js-type-show" data-id="{{ j.id }}">show
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger js-delete" data-id="{{ j.id }}">delete
                             </button>
                         </td>
                     </tr>
@@ -182,13 +187,45 @@
         $(document).on('change', '.js-show-toggle', function (e) {
             let data_rows = $('.js-data-row').toArray();
 
-            data_rows.forEach(function(element, index){
-                if($(element).data('is-hidden') === 'True' && $(element).hasClass('hidden')) {
+            data_rows.forEach(function (element, index) {
+                if ($(element).data('is-hidden') === 'True' && $(element).hasClass('hidden')) {
                     $(element).removeClass('hidden');
-                } else if($(element).data('is-hidden') === 'True' && $(element).hasClass('hidden') === false) {
+                } else if ($(element).data('is-hidden') === 'True' && $(element).hasClass('hidden') === false) {
                     $(element).addClass('hidden');
                 }
             });
+        });
+
+        $(document).on('click', '.js-delete', function (e) {
+            const category_id = $(this).data('id');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'delete'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "POST",
+                        url: '{% url "menu:PokemonType" %}',
+                        data: {csrf: csrftoken, id: category_id, delete_me: 'true'},
+                        headers: {"X-CSRFToken": csrftoken},
+                        dataType: "json",
+                        success: async function (data) {
+                            await Swal.fire(
+                                data.message,
+                            );
+                            location.reload()
+                        },
+                        error: function (err) {
+                            console.error('an error occurred', err)
+                        }
+                    });
+                }
+            })
         });
     });
 
