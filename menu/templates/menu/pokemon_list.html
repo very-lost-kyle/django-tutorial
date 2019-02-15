@@ -125,10 +125,6 @@
                     <a href="{% url "menu:PokemonType" %}" class="btn btn-primary pull-left" role="button">view
                         categories</a>
                 </div>
-                <div class="col-xs-1">
-                    <button type="button" class="btn btn-primary js-work-load">work to be done
-                    </button>
-                </div>
             </form>
         </div>
     </div>
@@ -272,15 +268,6 @@
         const csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
         $('[data-toggle="popover"]').popover();
-
-        $(document).on('click', '.js-work-load', function (e) {
-            swal.fire(
-                '--> create drop down menu for edit/new modals\n\n' +
-                '--> populate drop down menu with category model > types\n\n' +
-                '--> update edit/new ajax requests to update foreign key in pokemon model\n\n' +
-                '--> add delete request for category types in pokemon_type.html\n\n'
-            )
-        });
 
         $(document).on('change', '#shiny_toggle', function (e) {
             if ($('#shiny_toggle').val() === 'on') {

@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d8f79f2-9615-4f8b-9e01-f0d7136c0ee4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/menu/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/menu/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/menu/templates/menu/pokemon_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/menu/templates/menu/pokemon_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/menu/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/menu/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,11 +27,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/menu/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="294">
+              <caret line="55" selection-start-line="55" selection-end-line="55" />
               <folding>
                 <element signature="e#1#46#0" expanded="true" />
                 <element signature="e#727#1945#0" />
-                <element signature="e#2000#3673#0" />
                 <element signature="e#2685#3189#0" />
                 <element signature="e#2027#4130#0" />
                 <element signature="e#6825#9774#0" />
@@ -71,13 +68,15 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/menu/templates/menu/pokemon_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3037">
-              <caret line="219" column="57" selection-start-line="219" selection-start-column="57" selection-end-line="219" selection-end-column="57" />
+            <state relative-caret-position="912">
+              <caret line="152" column="55" selection-start-line="152" selection-start-column="55" selection-end-line="152" selection-end-column="55" />
               <folding>
-                <element signature="e#11649#11673#0#HTML" />
+                <element signature="n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" />
                 <element signature="e#11456#11648#0#HTML" />
                 <element signature="e#11719#11923#0#HTML" />
+                <element signature="e#13125#17489#0#HTML" />
                 <element signature="e#17550#19622#0#HTML" />
+                <element signature="e#18465#22349#0#HTML" />
                 <element signature="e#22409#23356#0#HTML" />
                 <element signature="e#23417#23472#0#HTML" />
                 <element signature="e#23506#25003#0#HTML" />
@@ -89,8 +88,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/menu/templates/menu/pokemon_type.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="829">
-              <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
+            <state relative-caret-position="199">
+              <caret line="61" column="63" lean-forward="true" selection-start-line="61" selection-start-column="63" selection-end-line="61" selection-end-column="63" />
               <folding>
                 <element signature="n#style#0;n#head#0;n#html#0;n#!!top" />
                 <element signature="e#3971#4163#0#HTML" />
@@ -105,7 +104,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/menu/templates/menu/create_new_form.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="769">
+            <state relative-caret-position="819">
               <caret line="76" column="28" lean-forward="true" selection-start-line="76" selection-start-column="28" selection-end-line="76" selection-end-column="28" />
               <folding>
                 <element signature="n#style#0;n#head#0;n#html#0;n#!!top" />
@@ -167,8 +166,8 @@
         <option value="$PROJECT_DIR$/menu/admin.py" />
         <option value="$PROJECT_DIR$/menu/templates/menu/pokemon_type.html" />
         <option value="$PROJECT_DIR$/menu/models.py" />
-        <option value="$PROJECT_DIR$/menu/templates/menu/pokemon_list.html" />
         <option value="$PROJECT_DIR$/menu/views.py" />
+        <option value="$PROJECT_DIR$/menu/templates/menu/pokemon_list.html" />
       </list>
     </option>
   </component>
@@ -282,12 +281,12 @@
       <option name="presentableId" value="Default" />
       <updated>1549390951121</updated>
       <workItem from="1549390953629" duration="167347000" />
-      <workItem from="1550150248917" duration="45676000" />
+      <workItem from="1550150248917" duration="47077000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="213023000" />
+    <option name="totallyTimeSpent" value="214424000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-489" width="1096" height="1896" extended-state="6" />
@@ -494,16 +493,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/menu/templates/menu/create_new_form.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="769">
-          <caret line="76" column="28" lean-forward="true" selection-start-line="76" selection-start-column="28" selection-end-line="76" selection-end-column="28" />
-          <folding>
-            <element signature="n#style#0;n#head#0;n#html#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/menu/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="42">
@@ -511,16 +500,54 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/menu/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="6" column="49" selection-start-line="6" selection-start-column="49" selection-end-line="6" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/menu/templates/menu/pokemon_type.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="829">
-          <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
+        <state relative-caret-position="199">
+          <caret line="61" column="63" lean-forward="true" selection-start-line="61" selection-start-column="63" selection-end-line="61" selection-end-column="63" />
           <folding>
             <element signature="n#style#0;n#head#0;n#html#0;n#!!top" />
             <element signature="e#3971#4163#0#HTML" />
             <element signature="e#5340#6316#0#HTML" />
             <element signature="e#6543#7365#0#HTML" />
             <element signature="e#7247#7271#0#HTML" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/menu/templates/menu/create_new_form.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="819">
+          <caret line="76" column="28" lean-forward="true" selection-start-line="76" selection-start-column="28" selection-end-line="76" selection-end-column="28" />
+          <folding>
+            <element signature="n#style#0;n#head#0;n#html#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/menu/templates/menu/pokemon_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="912">
+          <caret line="152" column="55" selection-start-line="152" selection-start-column="55" selection-end-line="152" selection-end-column="55" />
+          <folding>
+            <element signature="n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" />
+            <element signature="e#11456#11648#0#HTML" />
+            <element signature="e#11719#11923#0#HTML" />
+            <element signature="e#13125#17489#0#HTML" />
+            <element signature="e#17550#19622#0#HTML" />
+            <element signature="e#18465#22349#0#HTML" />
+            <element signature="e#22409#23356#0#HTML" />
+            <element signature="e#23417#23472#0#HTML" />
+            <element signature="e#23506#25003#0#HTML" />
           </folding>
         </state>
       </provider>
@@ -535,39 +562,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/menu/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="6" column="49" selection-start-line="6" selection-start-column="49" selection-end-line="6" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/menu/templates/menu/pokemon_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3037">
-          <caret line="219" column="57" selection-start-line="219" selection-start-column="57" selection-end-line="219" selection-end-column="57" />
-          <folding>
-            <element signature="e#11649#11673#0#HTML" />
-            <element signature="e#11456#11648#0#HTML" />
-            <element signature="e#11719#11923#0#HTML" />
-            <element signature="e#17550#19622#0#HTML" />
-            <element signature="e#22409#23356#0#HTML" />
-            <element signature="e#23417#23472#0#HTML" />
-            <element signature="e#23506#25003#0#HTML" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/menu/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="294">
+          <caret line="55" selection-start-line="55" selection-end-line="55" />
           <folding>
             <element signature="e#1#46#0" expanded="true" />
             <element signature="e#727#1945#0" />
-            <element signature="e#2000#3673#0" />
             <element signature="e#2685#3189#0" />
             <element signature="e#2027#4130#0" />
             <element signature="e#6825#9774#0" />
