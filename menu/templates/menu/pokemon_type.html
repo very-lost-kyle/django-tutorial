@@ -62,19 +62,27 @@
                         <th scope="col" colspan="3">Hidden</th>
                     </tr>
                 </thread>
+
                 <tbody class="body">
                 {% for j in object_list %}
                     <tr class="js-data-row {% if j.delete_me_bool %}hidden{% endif %}"
                         data-is-hidden="{{ j.delete_me_bool }}">
-                        <th scope="row">{{ j.category_type }}</th>
+                        <th scope="row">{{ j.category_type|capfirst }}</th>
                         <td>{{ j.delete_me_bool }} </td>
-                        <td>
-                            <button type="button" class="btn btn-danger js-type-hide" data-id="{{ j.id }}">hide</button>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-success js-type-show" data-id="{{ j.id }}">show
-                            </button>
-                        </td>
+                        {% if j.delete_me_bool %}
+                            <td>
+                                <button type="button" class="btn btn-success js-type-hide-show" data-id="{{ j.id }}"
+                                        data-hide="{{ j.delete_me_bool }}">show
+                                </button>
+                            </td>
+                        {% else %}
+                            <td>
+                                <button type="button" class="btn btn-danger js-type-hide-show" data-id="{{ j.id }}"
+                                        data-hide="{{ j.delete_me_bool }}">hide
+                                </button>
+                            </td>
+                        {% endif %}
+
                         <td>
                             <button type="button" class="btn btn-danger js-delete" data-id="{{ j.id }}">delete
                             </button>
@@ -83,7 +91,10 @@
                 {% endfor %}
                 </tbody>
             </table>
-
+            <div class="col-xs-2">
+                <a href="{% url "menu:pokemon_form" %}" class="btn btn-danger pull-left" role="button">go
+                    back</a>
+            </div>
             <form action="type" method="post">
                 {% csrf_token %}
                 <div class="col-xs-3">
@@ -92,10 +103,7 @@
 
 
             </form>
-            <div class="col-xs-3">
-                <a href="{% url "menu:pokemon_form" %}" class="btn btn-danger pull-left" role="button">go
-                    back</a>
-            </div>
+
             <div class="col-xs-3">
                 <!--<button type="button" class="btn btn-warning">show hidden categories</button>-->
                 <input class="js-show-toggle" type="checkbox" checked data-toggle="toggle"
@@ -124,46 +132,20 @@
     $(document).ready(function () {
         const csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
-        $(document).on('click', '.js-type-hide', function (e) {
+        $(document).on('click', '.js-type-hide-show', function (e) {
             const category_type_id = $(this).data('id');
-            console.log('changed= ' + category_type_id + '\n');
+            let category_hide = false;
+            if ($(this).data('hide') == "False") {
+                category_hide = true;
+            }
+
             $.ajax({
                 type: "POST",
                 url: '{% url "menu:PokemonFormType" %}',
                 data: {
                     csrf: csrftoken,
                     id: $(this).data('id'),
-                    hide: true,
-                },
-                headers: {"X-CSRFToken": csrftoken},
-                datatype: "json",
-                success: async function (data) {
-                    const {value: temp} = await Swal.fire(
-                        data.message
-                    );
-                    location.reload()
-                },
-                error: function (err) {
-
-                    console.error('an error occurred', err);
-                    Swal.fire(
-                        '\n OOPS!! Looks like we\'re blasting off again!\n',
-                    );
-
-                }
-            });
-        });
-
-        $(document).on('click', '.js-type-show', function (e) {
-            const category_type_id = $(this).data('id');
-            console.log('changed= ' + category_type_id + '\n');
-            $.ajax({
-                type: "POST",
-                url: '{% url "menu:PokemonFormType" %}',
-                data: {
-                    csrf: csrftoken,
-                    id: $(this).data('id'),
-                    hide: false,
+                    hide: category_hide,
                 },
                 headers: {"X-CSRFToken": csrftoken},
                 datatype: "json",

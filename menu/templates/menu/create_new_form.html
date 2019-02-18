@@ -47,7 +47,14 @@
           integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.css"/>
+    <style>
 
+        .error {
+            margin-left: 10px;
+            color: red;
+        }
+
+    </style>
 </head>
 <body>
 <div class="container">
@@ -55,23 +62,28 @@
         <div class="col-xs-8">
 
             <h1>pokemon categories</h1>
+            {% if data.err %}
+                {% for error in data.err %}
+                    <li style="color: red">{{ error }}</li>
+                {% endfor %}
+            {% endif %}
             <form action="type" method="post">
                 {% csrf_token %}
                 <div class="form-inline">
                     <div class="form-group">
                         <div class="input-group">
-                            {{ form.as_p }}
+                            {{ data.form.as_p }}
                         </div>
                     </div>
 
                 </div>
-
                 <div class="col-xs-3">
                     <button type="submit" class="btn btn-primary">submit</button>
                 </div>
 
 
             </form>
+
             <div class="col-xs-3">
                 <a href="{% url "menu:PokemonType" %}" class="btn btn-danger pull-left" role="button">go
                     back</a>

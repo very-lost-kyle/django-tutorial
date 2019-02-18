@@ -60,199 +60,213 @@
 <div class="container">
     {% csrf_token %}
     <div class="row">
-        <div class="col-xs-6">
-            <h1>pokemon</h1>
-
-        </div>
-
-    </div>
-    <div class="row">
         <div class="col-xs-12">
-            <form>
-                <table class="table table-striped" id="poke_table">
-                    <thread>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">type</th>
-                            <th scope="col">shiny</th>
-                            <th scope="col">level</th>
-                            <th scope="col">view</th>
-                            <th scope="col">edit</th>
-                            <th scope="col">delete</th>
-                        </tr>
-                    </thread>
-                    <tbody class="body" id="table_body">
-                    {% for i in object_list %}
-                        <tr id="{{ i.id }}">
-                            <th scope="row" class="row_header">{{ i.name_text }}</th>
-                            <td class="row_type">{{ i.foreign_type }} </td>
-                            <td class="row_shiny">{{ i.shiny_bool }}</td>
-                            <td class="row_level">{{ i.level_int }}</td>
-                            <td>
-                                <a tabindex="0" class="btn btn-md btn-warning" role="button" data-toggle="popover"
-                                   data-trigger="focus" title="{{ i.name_text }}"
-                                   data-content="type: {{ i.foreign_type }}<br />
+            <h1>pokemon
+                <div class="btn-group form-inline pull-right">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        Sort by<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url "menu:PokemonSort" %}">name ascending</a></li>
+                        <li><a href="#">name descending</a></li>
+                        <li><a href="#">type ascending</a></li>
+                        <li><a href="#">type descending</a></li>
+                        <li><a href="#">level ascending</a></li>
+                        <li><a href="#">level descending</a></li>
+                        <li><a href="#">shiny ascending</a></li>
+                        <li><a href="#">shiny descending</a></li>
+                    </ul>
+                </div>
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <form>
+                    <table class="table table-striped" id="poke_table">
+                        <thread>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">type</th>
+                                <th scope="col">shiny</th>
+                                <th scope="col">level</th>
+                                <th scope="col">view</th>
+                                <th scope="col">edit</th>
+                                <th scope="col">delete</th>
+                            </tr>
+                        </thread>
+                        <tbody class="body" id="table_body">
+                        {% for i in object_list %}
+                            <tr id="{{ i.id }}">
+                                <th scope="row" class="row_header">{{ i.name_text|capfirst }}</th>
+                                <td class="row_type">{{ i.foreign_type|capfirst }} </td>
+                                <td class="row_shiny">{{ i.shiny_bool }}</td>
+                                <td class="row_level">{{ i.level_int }}</td>
+                                <td>
+                                    <a tabindex="0" class="btn btn-md btn-warning" role="button" data-toggle="popover"
+                                       data-trigger="focus" title="{{ i.name_text }}"
+                                       data-content="type: {{ i.foreign_type }}<br />
                                                  shiny: {{ i.shiny_bool }}<br />
                                                  level: {{ i.level_int }}"
-                                   data-html="true">view</a>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-info js-edit" id="edit_button"
-                                        data-id="{{ i.id }}"
-                                        data-name="{{ i.name_text }}"
-                                        data-type="{{ i.foreign_type }}"
-                                        data-shiny="{{ i.shiny_bool }}"
-                                        data-level="{{ i.level_int }}">
-                                    edit
-                                </button>
+                                       data-html="true">view</a>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-info js-edit" id="edit_button"
+                                            data-id="{{ i.id }}"
+                                            data-name="{{ i.name_text }}"
+                                            data-type="{{ i.foreign_type }}"
+                                            data-shiny="{{ i.shiny_bool }}"
+                                            data-level="{{ i.level_int }}">
+                                        edit
+                                    </button>
 
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger js-delete" data-id="{{ i.id }}">delete
-                                </button>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger js-delete" data-id="{{ i.id }}">delete
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="col-xs-1">
+                        <!--<a href="{% url "menu:pokemon_new" %}" class="btn btn-success pull-left" role="button">New</a>-->
+                        <button type="button" class="btn btn-success pull-left js-new">new
+                        </button>
+                    </div>
+                    <div class="col-xs-2">
+                        <a href="{% url "menu:PokemonType" %}" class="btn btn-primary pull-left" role="button">view
+                            categories</a>
+                    </div>
 
-                </table>
-                <div class="col-xs-1">
-                    <!--<a href="{% url "menu:pokemon_new" %}" class="btn btn-success pull-left" role="button">New</a>-->
-                    <button type="button" class="btn btn-success pull-left js-new">new
-                    </button>
-                </div>
-                <div class="col-xs-2">
-                    <a href="{% url "menu:PokemonType" %}" class="btn btn-primary pull-left" role="button">view
-                        categories</a>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!-- Edit Modal -->
-    <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Editing</h4>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <input type="hidden" id="p_id">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="input_name"><font size="4">Edit Name</font></label>
-                                <input type="text" class="form-control input-sm" id="input_name">
-                                <span class="error">cannot be a blank or a duplicate</span>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="input_type"><font size="4">Edit Type</font></label>
-                                    <select class="form-control" id="input_type">
-                                        <option value="">default</option>
-                                        {% for type in pokemons_types %}
-                                            <option value="{{ type.id }}">{{ type.category_type }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <span class="error">The type is required</span>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="form-inline col-md-6">
-                                <label class="top_buffer"><font size="4">Is it a shiny? </font></label>
-                                <input id="shiny_toggle" type="checkbox" data-toggle="toggle" data-on="true"
-                                       data-off="False"
-                                       data-onstyle="info" data-offstyle="default" data-size="mini" data-width="50">
-                                <div id="console-event"></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="input_level"><font size="4">What level is it?</font> </label>
-                                <input type="number" class="form-control input-sm" id="input_level" min="0" step="1"
-                                       data-bind="value:input_level"/>
-                                <span class="error">The level is required</span>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary js-save">Save changes</button>
-                </div>
-
+                </form>
             </div>
         </div>
-    </div>
+        <!-- Edit Modal -->
+        <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Editing</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <input type="hidden" id="p_id">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="input_name"><font size="4">Edit Name</font></label>
+                                    <input type="text" class="form-control input-sm" id="input_name">
+                                    <span class="error">cannot be a blank or a duplicate</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="input_type"><font size="4">Edit Type</font></label>
+                                        <select class="form-control" id="input_type">
+                                            <option value="">default</option>
+                                            {% for type in pokemons_types %}
+                                                <option value="{{ type.id }}">{{ type.category_type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <span class="error">The type is required</span>
+                                    </div>
+                                </div>
 
-    <!--New Modal -->
-    <div class="modal fade" id="new_modal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="newModalLabel">Create</h4>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <!--<input type="hidden" id="p_id">-->
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="input1"><font size="4">New Name</font></label>
-                                <input type="text" class="form-control input-sm" id="new_input_name">
-                                <span class="error">cannot be a blank or a duplicate</span>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="new_input_type"><font size="4">Edit Type</font></label>
-                                    <select class="form-control" id="new_input_type">
-                                        <option value="">default</option>
-                                        {% for type in pokemons_types %}
-                                            <option value="{{ type.id }}">{{ type.category_type }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <span class="error">The type is required</span>
+                            <div class="row">
+                                <div class="form-inline col-md-6">
+                                    <label class="top_buffer"><font size="4">Is it a shiny? </font></label>
+                                    <input id="shiny_toggle" type="checkbox" data-toggle="toggle" data-on="true"
+                                           data-off="False"
+                                           data-onstyle="info" data-offstyle="default" data-size="mini" data-width="50">
+                                    <div id="console-event"></div>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="form-inline col-md-6">
-                                <label class="top_buffer"><font size="4">Is it a shiny? </font></label>
-                                <input id="new_shiny_toggle" type="checkbox" data-toggle="toggle" data-on="true"
-                                       data-off="False"
-                                       data-onstyle="info" data-offstyle="default" data-size="mini" data-width="50">
-                                <div id="console-event"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="input_level"><font size="4">What level is it?</font> </label>
+                                    <input type="number" class="form-control input-sm" id="input_level" min="0" step="1"
+                                           data-bind="value:input_level"/>
+                                    <span class="error">The level is required</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="new_input_level"><font size="4">What level is it?</font> </label>
-                                <input type="number" class="form-control input-sm" id="new_input_level" min="0" step="1"
-                                       data-bind="value:new_input_level"/>
-                                <span class="error">A level is required</span>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                        </form>
+                    </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary js-new-save">Save changes</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary js-save">Save changes</button>
+                    </div>
 
+                </div>
             </div>
         </div>
+
+        <!--New Modal -->
+        <div class="modal fade" id="new_modal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="newModalLabel">Create</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <!--<input type="hidden" id="p_id">-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="input1"><font size="4">New Name</font></label>
+                                    <input type="text" class="form-control input-sm" id="new_input_name">
+                                    <span class="error">cannot be a blank or a duplicate</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="new_input_type"><font size="4">Edit Type</font></label>
+                                        <select class="form-control" id="new_input_type">
+                                            <option value="">default</option>
+                                            {% for type in pokemons_types %}
+                                                <option value="{{ type.id }}">{{ type.category_type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <span class="error">The type is required</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="form-inline col-md-6">
+                                    <label class="top_buffer"><font size="4">Is it a shiny? </font></label>
+                                    <input id="new_shiny_toggle" type="checkbox" data-toggle="toggle" data-on="true"
+                                           data-off="False"
+                                           data-onstyle="info" data-offstyle="default" data-size="mini" data-width="50">
+                                    <div id="console-event"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="new_input_level"><font size="4">What level is it?</font> </label>
+                                    <input type="number" class="form-control input-sm" id="new_input_level" min="0"
+                                           step="1"
+                                           data-bind="value:new_input_level"/>
+                                    <span class="error">A level is required</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary js-new-save">Save changes</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
-
-
 </div>
-
 </body>
 <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"

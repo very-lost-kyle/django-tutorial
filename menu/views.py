@@ -9,6 +9,17 @@ from .models import pokemon
 from .models import Category
 
 
+class PokemonSorted(ListView):
+    queryset = pokemon.objects.all().select_related('foreign_type')
+    context_object_name = 'poke'
+    template_name = 'menu/pokemon_sort.html'
+
+    def get_context_data(self, object_list=None, **kwargs):
+        context = super(PokemonSorted, self).get_context_data(**kwargs)
+
+        return context
+
+
 class PokemonFormType(ListView):
     model = Category
     template_name = "menu/create_new_form.html"
@@ -37,7 +48,7 @@ class PokemonFormType(ListView):
             results = {
                 'success': True,
                 'item': model_to_dict(record),
-                'message': "{} has been updated".format(record.id)
+                'message': "{} has been updated".format(record.category_type)
             }
 
         except ValueError:
@@ -85,30 +96,105 @@ class PokemonType(ListView):
                     }
                 return JsonResponse(results)
             else:
+                errors = []
+                categories = Category.objects.all()
                 form = TypeForm(request.POST)
                 if form.is_valid():
                     # print('form is valid')
-                    post = form.save(commit=False)
-                    post.save()
+                    incoming_type = request.POST['category_type']
+                    test_unique = Category.objects.filter(category_type=incoming_type).exists()
+                    # print(test_unique)
+                    if test_unique:
+                        errors.append('type already exists')
+                        form = TypeForm()
+                        data = {
+                            'err': errors,
+                            'form': form
+                        }
+                        return render(request, 'menu/create_new_form.html', {'data': data})
+                    else:
+                        post = form.save(commit=False)
+                        post.save()
                     return redirect('menu:PokemonType')
+                    # return render(request, 'menu/pokemon_type.html', {'errors': categories})
                 else:
                     form = TypeForm()
-                return render(request, 'menu/create_new_form.html', {'form': form})
+                    data = {
+                        'err': errors,
+                        'form': form
+                    }
+                return render(request, 'menu/create_new_form.html', {'data': data})
 
 
-class pokemonList(ListView):
+class PokemonList(ListView):
     queryset = pokemon.objects.all().select_related('foreign_type')
     context_object_name = 'poke'
     template_name = 'menu/pokemon_list.html'
 
     def get_context_data(self, object_list=None, **kwargs):
-        context = super(pokemonList, self).get_context_data(**kwargs)
-        context['pokemons_types'] = Category.objects.all()
+        context = super(PokemonList, self).get_context_data(**kwargs)
+        context['pokemons_types'] = Category.objects.filter(delete_me_bool=False)
+        # temp_dict = list(
+        #     pokemon.objects.values_list('name_text', 'foreign_type', 'foreign_type__category_type',
+        #                                 'level_int', 'shiny_bool', 'id'))
+        # sort_type = pokemon.objects.all().order_by('-foreign_type__category_type')
+        #
+        # context['sort_type'] = sort_type
 
         return context
 
+    # def post(self, request, *args, **kwargs):
+    #     results = {
+    #         'success': False,
+    #         'item': {},
+    #         'message': 'default'
+    #     }
+    #     status_code = 500
+    #     sorting_order = request.POST.get('sorting_order')
+    #     print(sorting_order)
+    #     # case statement:
+    #     # 0: name ascending
+    #     # 1: name descending
+    #     # 2: type ascending
+    #     # 3: type descending
+    #     # 4: level ascending
+    #     # 5: level descending
+    #     # 6: shiny ascending
+    #     # 7: type descending
+    #     try:
+    #
+    #         sort = {
+    #             0: pokemon.objects.all().order_by('-name_text').reverse(),
+    #             1: pokemon.objects.all().order_by('-name_text'),
+    #             2: pokemon.objects.all().order_by('-foreign_type__category_type').reverse(),
+    #             3: pokemon.objects.all().order_by('-foreign_type__category_type'),
+    #             4: pokemon.objects.all().order_by('-level_int').reverse(),
+    #             5: pokemon.objects.all().order_by('-level_int'),
+    #             6: pokemon.objects.all().order_by('-shiny_bool').reverse(),
+    #             7: pokemon.objects.all().order_by('-shiny_bool'),
+    #         }
+    #         print(sort)
+    #         status_code = 200
+    #         record = sort.get(sorting_order, pokemon.objects.all().order_by('-level_int'))
+    #         print(record)
+    #         message = "sorting complete"
+    #
+    #         results['success'] = True,
+    #         # results['item'] = model_to_dict(record),
+    #         results['message'] = message
+    #
+    #     except ValueError:
+    #         record = {}
+    #         message = 'sorting failed'
+    #
+    #         results['item'] = model_to_dict(record),
+    #         results['message'] = message
+    #
+    #     return JsonResponse(results, status=status_code)
+    #     #return record
 
-class pokemonCreate(CreateView):
+
+class PokemonCreate(CreateView):
     def post(self, request, *args, **kwargs):
         results = {
             'success': False,
@@ -171,7 +257,7 @@ class pokemonCreate(CreateView):
         return JsonResponse(results, status=status_code)
 
 
-class pokemonUpdate(View):
+class PokemonUpdate(View):
     def post(self, request, *args, **kwargs):
         results = {
             'success': False,
@@ -255,7 +341,7 @@ class pokemonUpdate(View):
         return JsonResponse(results, status=status_code)
 
 
-class pokemonDelete(View):
+class PokemonDelete(View):
     def post(self, request, *args, **kwargs):
         is_delete = False
         status_code = 404
