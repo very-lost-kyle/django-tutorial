@@ -62,23 +62,26 @@
     <div class="row">
         <div class="col-xs-12">
             <h1>pokemon
-                <div class="btn-group form-inline pull-right">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                        Sort by<span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url "menu:PokemonSort" %}">name ascending</a></li>
-                        <li><a href="#">name descending</a></li>
-                        <li><a href="#">type ascending</a></li>
-                        <li><a href="#">type descending</a></li>
-                        <li><a href="#">level ascending</a></li>
-                        <li><a href="#">level descending</a></li>
-                        <li><a href="#">shiny ascending</a></li>
-                        <li><a href="#">shiny descending</a></li>
-                    </ul>
-                </div>
+                <form class="pull-right form-inline" method="GET">
+                    <div class="form-group">
+                        <label for="type_sort"><font size="2">sort by: </font></label>
+                        <select class="form-control" name="ordering" id="type_sort">
+                            <option value="8" hidden>please select</option>
+                            <option value="0">name ascending</option>
+                            <option value="1">name descending</option>
+                            <option value="2">type ascending</option>
+                            <option value="3">type descending</option>
+                            <option value="4">level ascending</option>
+                            <option value="5">level descending</option>
+                            <option value="6">shiny ascending</option>
+                            <option value="7">shiny descending</option>
+                        </select>
+                        <input type="submit" class="btn btn-primary btn-xs" value="Submit">
+                    </div>
+                </form>
             </h1>
+
+
         </div>
         <div class="row">
             <div class="col-xs-12">
@@ -130,7 +133,6 @@
                         </tbody>
                     </table>
                     <div class="col-xs-1">
-                        <!--<a href="{% url "menu:pokemon_new" %}" class="btn btn-success pull-left" role="button">New</a>-->
                         <button type="button" class="btn btn-success pull-left js-new">new
                         </button>
                     </div>
@@ -281,6 +283,7 @@
     $(document).ready(function () {
         const csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
+        console.log($('#type_sort').val());
         $('[data-toggle="popover"]').popover();
 
         $(document).on('change', '#shiny_toggle', function (e) {
@@ -304,7 +307,7 @@
         $(document).on('click', '.js-save', function (e) {
             let temp_name = 'default';
             let temp_type = 'default';
-            let temp_bool = 'True';
+            let temp_bool = 'False';
             let temp_level = 1;
             if ($('#shiny_toggle').val() === 'on') {
                 temp_bool = 'True';
