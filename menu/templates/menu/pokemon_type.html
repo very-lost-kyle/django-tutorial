@@ -51,6 +51,7 @@
 </head>
 <body>
 <div class="container">
+    {% csrf_token %}
     <div class="row">
         <div class="col-xs-8">
 
@@ -95,12 +96,9 @@
                 <a href="{% url "menu:pokemon_form" %}" class="btn btn-danger pull-left" role="button">go
                     back</a>
             </div>
-            <form action="type" method="post">
-                {% csrf_token %}
-                <div class="col-xs-3">
-                    <button type="submit" class="btn btn-primary">submit new category</button>
-                </div>
-
+            <div class="col-xs-3">
+                <a href="{% url "menu:PokemonFormType" %}" class="btn btn-primary">submit new category</a>
+            </div>
 
             </form>
 
@@ -133,7 +131,7 @@
         const csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
         $(document).on('click', '.js-type-hide-show', function (e) {
-            const category_type_id = $(this).data('id');
+            const category_id = $(this).data('id');
             let category_hide = false;
             if ($(this).data('hide') == "False") {
                 category_hide = true;
@@ -141,11 +139,12 @@
 
             $.ajax({
                 type: "POST",
-                url: '{% url "menu:PokemonFormType" %}',
+                url: 'category-update/' + category_id,
                 data: {
                     csrf: csrftoken,
-                    id: $(this).data('id'),
-                    hide: category_hide,
+                    id: category_id,
+                    delete_bool: 'false',
+                    hide: category_hide
                 },
                 headers: {"X-CSRFToken": csrftoken},
                 datatype: "json",
@@ -192,8 +191,13 @@
                 if (result.value) {
                     $.ajax({
                         type: "POST",
-                        url: '{% url "menu:PokemonType" %}',
-                        data: {csrf: csrftoken, id: category_id, delete_me: 'true'},
+                        url: 'category-update/' + category_id,
+                        data: {
+                            csrf: csrftoken,
+                            id: category_id,
+                            delete_bool: 'true',
+                            hide: 'false'
+                        },
                         headers: {"X-CSRFToken": csrftoken},
                         dataType: "json",
                         success: async function (data) {

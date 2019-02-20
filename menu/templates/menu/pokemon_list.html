@@ -282,8 +282,6 @@
 <script>
     $(document).ready(function () {
         const csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-
-        console.log($('#type_sort').val());
         $('[data-toggle="popover"]').popover();
 
         $(document).on('change', '#shiny_toggle', function (e) {
@@ -302,7 +300,43 @@
             }
         });
 
-        $(document).on('click', '.js-delete', delete_me);
+        $(document).on('click', '.js-delete', function (e) {
+            const pokemon_id = $(this).data('id');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'delete'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "POST",
+                        url: 'delete/'+pokemon_id,
+                        data: {csrf: csrftoken, id: pokemon_id},
+                        headers: {"X-CSRFToken": csrftoken},
+                        dataType: "json",
+                        success: function (data) {
+                            //console.log(data);
+                            //console.log(data.item);
+                            var index = $('#' + data.item + ' .row_header').parent().index();
+                            //console.log(index + '\n');
+                            document.getElementById("poke_table").deleteRow(index + 1);
+
+                            Swal.fire(
+                                data.message,
+                            )
+                        },
+                        error: function (err) {
+                            console.error('an error occurred', err)
+                        }
+                    });
+
+                }
+            })
+        });
 
         $(document).on('click', '.js-save', function (e) {
             let temp_name = 'default';
@@ -542,44 +576,6 @@
         $(document).on('click', '.js-view', function (e) {
             $('#view_modal').modal('show');
         });
-
-        function delete_me(e) {
-            const pokemon_id = $(this).data('id');
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'delete'
-            }).then((result) => {
-                if (result.value) {
-                    $.ajax({
-                        type: "POST",
-                        url: '{% url "menu:pokemon_delete" %}',
-                        data: {csrf: csrftoken, id: pokemon_id},
-                        headers: {"X-CSRFToken": csrftoken},
-                        dataType: "json",
-                        success: function (data) {
-                            //console.log(data);
-                            //console.log(data.item);
-                            var index = $('#' + data.item + ' .row_header').parent().index();
-                            //console.log(index + '\n');
-                            document.getElementById("poke_table").deleteRow(index + 1);
-
-                            Swal.fire(
-                                data.message,
-                            )
-                        },
-                        error: function (err) {
-                            console.error('an error occurred', err)
-                        }
-                    });
-
-                }
-            })
-        }
 
     });
 

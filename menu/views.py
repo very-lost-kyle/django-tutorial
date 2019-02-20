@@ -8,112 +8,90 @@ from django.http import JsonResponse
 from .forms import TypeForm, SortForm
 from .models import pokemon
 from .models import Category
+from django.core.exceptions import ValidationError
+
+
+class CategoryUpdate(View):
+    model = Category
+    template_name = "menu/pokemon_type.html"
+
+    def post(self, request, *args, **kwargs):
+
+        if request.method == "POST":
+            is_delete = False
+            status_code = 500
+            results = {
+                'success': False,
+                'item': {},
+                'message': 'default'
+            }
+            try:
+                return_id = request.POST.get('id')
+                delete_bool = request.POST.get('delete_bool')
+                return_hide = request.POST.get('hide')
+                record = Category.objects.get(id=return_id)
+                status_code = 200
+                results = {
+                    'success': True,
+                    'item': record.id,
+                    'message': ""
+                }
+                if delete_bool == 'true':
+                    results['message'] = "{} has been deleted".format(record.category_type)
+                    record.delete()
+                else:
+                    if return_hide == 'true':
+                        record.delete_me_bool = True
+                    else:
+                        record.delete_me_bool = False
+                    results['message'] = "{} has been updated".format(record.category_type)
+                    record.save()
+            except ValueError:
+                results = {
+                    'item': {},
+                    'message': "an error occurred"
+                }
+            return JsonResponse(results)
 
 
 class PokemonFormType(ListView):
     model = Category
     template_name = "menu/create_new_form.html"
 
-    def post(self, request, *args, **kwargs):
-        results = {
-            'success': False,
-            'item': {},
-            'message': 'default'
+    def get(self, request):
+        form = TypeForm()
+        data = {
+            'err': [],
+            'form': form
         }
-        status_code = 500
-        try:
-            # Setting local variables.
-            status_code = 200
-            return_id = request.POST.get('id')
-            return_hide = request.POST.get('hide')
+        return render(request, 'menu/create_new_form.html', {'data': data})
 
-            # Getting current record.
-            record = Category.objects.get(id=return_id)
-            if return_hide == 'true':
-                record.delete_me_bool = True
-            else:
-                record.delete_me_bool = False
-            record.save()
+    def post(self, request, *args, **kwargs):
+        errors = []
+        form = TypeForm(request.POST)
 
-            results = {
-                'success': True,
-                'item': model_to_dict(record),
-                'message': "{} has been updated".format(record.category_type)
+        if form.is_valid():
+            if 'err' in form._errors:
+                errors.append(form._errors['err'])
+            post = form.save(commit=False)
+            post.save()
+            errors = []
+            return redirect('menu:PokemonType')
+        else:
+            if 'err' in form._errors:
+                errors.append(form._errors['err'])
+            form = TypeForm()
+            data = {
+                'err': errors,
+                'form': form
             }
-
-        except ValueError:
-
-            # Set local record variable to empty dictionary.
-            record = {}
-
-            # Update `results` value.
-            results['item'] = model_to_dict(record),
-            results['message'] = 'Failure'
-
-        # Serialize and return `results`.
-        return JsonResponse(results, status=status_code)
+            errors = []
+            return render(request, 'menu/create_new_form.html', {'data': data})
 
 
 class PokemonType(ListView):
     model = Category
     template_name = "menu/pokemon_type.html"
-
-    def post(self, request):
-
-        if request.method == "POST":
-            if request.POST.get('delete_me') == 'true':
-                is_delete = False
-                status_code = 500
-                results = {
-                    'success': False,
-                    'item': 0,
-                    'message': 'default'
-                }
-                return_id = request.POST.get('id')
-                record = Category.objects.get(id=return_id)
-                try:
-                    status_code = 200
-                    results = {
-                        'success': True,
-                        'item': record.id,
-                        'message': "{} has been deleted".format(record.category_type)
-                    }
-                    record.delete()
-                except ValueError:
-                    results = {
-                        'item': record.id,
-                        'message': "an error occurred"
-                    }
-                return JsonResponse(results)
-            else:
-                errors = []
-                categories = Category.objects.all()
-                form = TypeForm(request.POST)
-                if form.is_valid():
-                    # print('form is valid')
-                    incoming_type = request.POST['category_type']
-                    test_unique = Category.objects.filter(category_type=incoming_type).exists()
-                    # print(test_unique)
-                    if test_unique:
-                        errors.append('type already exists')
-                        form = TypeForm()
-                        data = {
-                            'err': errors,
-                            'form': form
-                        }
-                        return render(request, 'menu/create_new_form.html', {'data': data})
-                    else:
-                        post = form.save(commit=False)
-                        post.save()
-                    return redirect('menu:PokemonType')
-                    # return render(request, 'menu/pokemon_type.html', {'errors': categories})
-                else:
-                    form = TypeForm()
-                    data = {
-                        'err': errors,
-                        'form': form
-                    }
-                return render(request, 'menu/create_new_form.html', {'data': data})
 
 
 class PokemonList(ListView):
