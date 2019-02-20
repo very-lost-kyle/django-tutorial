@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.forms.models import model_to_dict
 from django.shortcuts import render
-from django.views.generic import ListView, View
+from django.views.generic import ListView, View, FormView
 from django.views.generic.edit import CreateView
 from django.shortcuts import redirect
 from django.http import JsonResponse
@@ -12,9 +12,6 @@ from django.core.exceptions import ValidationError
 
 
 class CategoryUpdate(View):
-    model = Category
-    template_name = "menu/pokemon_type.html"
-
     def post(self, request, *args, **kwargs):
 
         if request.method == "POST":
@@ -54,7 +51,7 @@ class CategoryUpdate(View):
             return JsonResponse(results)
 
 
-class PokemonFormType(ListView):
+class PokemonFormType(FormView):
     model = Category
     template_name = "menu/create_new_form.html"
 
