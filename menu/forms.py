@@ -1,5 +1,15 @@
 from django import forms
-from .models import Category
+from .models import Category, PokemonTrainers
+
+
+class PokemonTrainer(forms.ModelForm):
+    class Meta:
+        model = PokemonTrainers
+        fields = ('name', 'num_of_pokemon', 'num_of_badges', 'is_gym_leader',)
+    # name = forms.CharField(label='name', max_length=25)
+    # num_of_pokemon = forms.IntegerField(label='number of pokemon', min_value=0, max_value=6)
+    # num_of_badges = forms.IntegerField(label='number of badges', min_value=0, max_value=8)
+    # is_gym_leader = forms.BooleanField(label='gym leader status', required=False)
 
 
 class TypeForm(forms.ModelForm):

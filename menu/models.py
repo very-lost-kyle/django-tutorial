@@ -31,3 +31,16 @@ class pokemon(models.Model):
 
     def sort(self):
         return pokemon.objects.order_by(self.name_text)
+
+
+class PokemonTrainers(models.Model):
+    name = models.CharField(max_length=25)
+    num_of_pokemon = models.IntegerField(default=0)
+    num_of_badges = models.IntegerField(default=0)
+    is_gym_leader = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+    def get_fields(self):
+        return [(field.name, field.value_to_string(self)) for field in PokemonTrainers._meta.fields]

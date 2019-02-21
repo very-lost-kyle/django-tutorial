@@ -5,10 +5,52 @@ from django.views.generic import ListView, View, FormView
 from django.views.generic.edit import CreateView
 from django.shortcuts import redirect
 from django.http import JsonResponse
-from .forms import TypeForm, SortForm
+from .forms import TypeForm, SortForm, PokemonTrainer
 from .models import pokemon
-from .models import Category
+from .models import Category, PokemonTrainers
 from django.core.exceptions import ValidationError
+from django.http import Http404
+
+
+class PokemonTrainers(FormView):
+    queryset = PokemonTrainers.objects.all()
+    context_object_name = 'trainers'
+    template_name = "menu/pokemon_trainers.html"
+
+    def get_context_data(self, object_list=None, **kwargs):
+        context = super(PokemonTrainers, self).get_context_data(**kwargs)
+        context['trainers'] = PokemonTrainers.objects.all()
+        return context
+
+    def get(self, request, *args, **kwargs):
+        form = PokemonTrainer()
+        data = {
+            'err': [],
+            'form': form,
+        }
+        return render(request, 'menu/pokemon_trainers.html', {'data': data})
+
+    def post(self, request, *args, **kwargs):
+        errors = []
+        form = PokemonTrainer(request.POST)
+
+        if form.is_valid():
+            if 'err' in form._errors:
+                errors.append(form._errors['err'])
+            post = form.save(commit=False)
+            post.save()
+            errors = []
+            return redirect('menu:pokemon-trainers')
+        else:
+            if 'err' in form._errors:
+                errors.append(form._errors['err'])
+            form = TypeForm()
+            data = {
+                'err': errors,
+                'form': form
+            }
+            errors = []
+            return render(request, 'menu/pokemon_trainers.html', {'data': data})
 
 
 class CategoryUpdate(View):
@@ -55,7 +97,7 @@ class PokemonFormType(FormView):
     model = Category
     template_name = "menu/create_new_form.html"
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         form = TypeForm()
         data = {
             'err': [],

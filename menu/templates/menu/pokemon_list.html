@@ -141,6 +141,11 @@
                             categories</a>
                     </div>
 
+                    <div class="col-xs-2">
+                        <a href="{% url "menu:pokemon-trainers" %}" class="btn btn-primary pull-left" role="button">view
+                            trainers</a>
+                    </div>
+
                 </form>
             </div>
         </div>
@@ -314,7 +319,7 @@
                 if (result.value) {
                     $.ajax({
                         type: "POST",
-                        url: 'delete/'+pokemon_id,
+                        url: 'delete/' + pokemon_id,
                         data: {csrf: csrftoken, id: pokemon_id},
                         headers: {"X-CSRFToken": csrftoken},
                         dataType: "json",

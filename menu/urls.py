@@ -4,6 +4,7 @@ from . import views
 
 app_name = 'menu'
 urlpatterns = [
+    path('pokemon-trainers', views.PokemonTrainers.as_view(), name='pokemon-trainers'),
     path('category-update/<int:pk>', views.CategoryUpdate.as_view(), name='category-update'),
     path('type', views.PokemonType.as_view(), name='PokemonType'),
     path('typeForm', views.PokemonFormType.as_view(), name='PokemonFormType'),
